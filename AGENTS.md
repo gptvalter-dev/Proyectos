@@ -103,7 +103,31 @@ Codex puede realizar pequeñas correcciones de integración cuando sean necesari
 
 Si un cambio necesario alteraría de forma material la arquitectura, compatibilidad de datos, reglas de negocio o alcance de la tarea, Codex debe detenerse e informar el conflicto en lugar de decidirlo por cuenta propia.
 
-## 5. Fuentes oficiales
+## 5. Usuarios, roles y permisos fuera del alcance actual
+
+En la etapa actual, Project Copilot se diseñará y construirá como una aplicación de escritorio de uso local sin sistema de identidad de aplicación.
+
+No implementar hasta que una tarea futura lo solicite expresamente:
+
+- entidad `User`;
+- entidad `Role`;
+- entidad `Permission`;
+- autenticación;
+- inicio de sesión;
+- autorización;
+- control de acceso por roles;
+- permisos por módulo, proyecto o registro;
+- integración con identidad de Windows;
+- servicios como `CurrentUser`, `IdentityService` o equivalentes;
+- tablas, migraciones o relaciones destinadas únicamente a usuarios, roles o permisos.
+
+Los conceptos funcionales de Responsable (Responsible), Propietario (Owner), Líder de Proyecto (Project Manager) e Interesado (Stakeholder) pertenecen al dominio de gestión de proyectos y no deben confundirse con usuarios autenticados de la aplicación.
+
+Mientras no exista un sistema de identidad, no agregar campos como `CreatedByUserId`, `UpdatedByUserId` o similares únicamente para anticipar una funcionalidad futura. La trazabilidad inicial se apoyará en fechas, estados, bitácora y eventos de negocio según corresponda.
+
+Esta decisión no debe impedir una evolución futura a múltiples usuarios, pero tampoco justifica crear abstracciones, tablas o infraestructura de identidad antes de necesitarlas. Si en el futuro se incorpora identidad, se diseñará como una evolución explícita y con su correspondiente análisis de impacto y migración.
+
+## 6. Fuentes oficiales
 
 - El repositorio GitHub `gptvalter-dev/Proyectos` es la fuente oficial del código fuente.
 - SQLite será la fuente oficial de los datos de negocio del proyecto durante la ejecución de la aplicación.
@@ -112,7 +136,7 @@ Si un cambio necesario alteraría de forma material la arquitectura, compatibili
 
 Si algo no puede verificarse, debe tratarse como no confirmado.
 
-## 6. Base tecnológica obligatoria
+## 7. Base tecnológica obligatoria
 
 Utilizar:
 
@@ -138,7 +162,7 @@ Antes de agregar cualquier librería externa, la tarea debe justificar expresame
 
 Codex no debe agregar una dependencia externa únicamente por conveniencia.
 
-## 7. Arquitectura de la solución
+## 8. Arquitectura de la solución
 
 Estructura objetivo:
 
@@ -176,7 +200,7 @@ Contiene Views WPF, ViewModels, Commands de interfaz, Resources, Styles, Convert
 
 Los ViewModels no deben ejecutar SQL, crear instancias de `DbContext` directamente, llamar directamente a proveedores de IA ni contener reglas complejas de dominio.
 
-## 8. Reglas de ingeniería
+## 9. Reglas de ingeniería
 
 Aplicar pragmáticamente:
 
@@ -196,7 +220,7 @@ Las operaciones potencialmente lentas deben utilizar `async` / `await` y no debe
 
 No ocultar excepciones. Separar mensajes para usuario de la información técnica registrada en logs.
 
-## 9. Reglas de persistencia
+## 10. Reglas de persistencia
 
 Utilizar SQLite con Entity Framework Core.
 
@@ -207,7 +231,7 @@ Utilizar SQLite con Entity Framework Core.
 - Preferir estados, cancelación, inactivación y trazabilidad sobre borrados destructivos cuando el historial sea importante.
 - Todo cambio de esquema debe indicarse explícitamente en la tarea e incluir su impacto de migración.
 
-## 10. Alcance inicial del producto
+## 11. Alcance inicial del producto
 
 El primer objetivo funcional es:
 
@@ -235,7 +259,7 @@ Etapas iniciales de implementación:
 
 No implementar anticipadamente etapas posteriores salvo que `TASKS.md` cambie el alcance de forma explícita.
 
-## 11. Límite de IA
+## 12. Límite de IA
 
 No acoplar la aplicación directamente a OpenAI.
 
@@ -252,7 +276,7 @@ IA propone
 
 La IA nunca debe modificar silenciosamente información oficial del proyecto.
 
-## 12. Pruebas y validación
+## 13. Pruebas y validación
 
 Las pruebas deben concentrarse en comportamientos que aporten valor, como:
 
@@ -279,7 +303,7 @@ dotnet test
 
 Si alguno de estos comandos no puede ejecutarse, Codex debe informar la razón exacta.
 
-## 13. Protocolo Git para Codex
+## 14. Protocolo Git para Codex
 
 Para cada tarea `Lista` completada correctamente:
 
@@ -301,7 +325,7 @@ Si el `push` falla, no afirmar que GitHub fue actualizado. Informar el error exa
 
 Si la tarea no puede completarse de forma segura, no hacer `push` de una implementación parcial que se sabe defectuosa. Informar por qué la tarea quedó bloqueada.
 
-## 14. Reporte obligatorio de finalización de Codex
+## 15. Reporte obligatorio de finalización de Codex
 
 Después de `ejecuta tareas`, Codex debe responder en español con el siguiente formato:
 
@@ -335,7 +359,7 @@ Observaciones:
 
 No omitir el SHA cuando se haya creado un commit.
 
-## 15. Propiedad y estados de las tareas
+## 16. Propiedad y estados de las tareas
 
 `TASKS.md` es elaborado por ChatGPT y funciona como cola oficial de implementación.
 
@@ -352,7 +376,7 @@ Codex no debe reescribir requerimientos, criterios de aceptación ni decisiones 
 
 Si `TASKS.md` no contiene ninguna tarea con estado `Lista`, Codex no debe modificar código fuente y debe informar que no existen tareas ejecutables.
 
-## 16. Ciclo de revisión
+## 17. Ciclo de revisión
 
 El ciclo operativo normal es:
 
