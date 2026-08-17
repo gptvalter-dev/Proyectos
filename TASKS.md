@@ -1,49 +1,49 @@
-# Project Copilot — Implementation Tasks
+# Project Copilot — Tareas de implementación
 
-This file is the implementation queue authored by ChatGPT and executed by Codex under the rules in `AGENTS.md`.
+Este archivo es la cola oficial de implementación elaborada por ChatGPT y ejecutada por Codex bajo las reglas definidas en `AGENTS.md`.
 
-## Status values
+## Estados permitidos
 
-- `Ready`: Codex must execute the task when the user says `ejecuta tareas`.
-- `Done`: task completed, validated, committed and pushed.
-- `Blocked`: task cannot be completed safely and requires review by ChatGPT/user.
-- `Draft`: not executable yet.
+- `Borrador`: la tarea todavía no debe ejecutarse.
+- `Lista`: Codex debe ejecutar la tarea cuando el usuario indique `ejecuta tareas`.
+- `Completada`: tarea implementada, validada, confirmada mediante commit y enviada a GitHub mediante push.
+- `Bloqueada`: la tarea no puede completarse de forma segura y requiere revisión de ChatGPT o del usuario.
 
-## Active tasks
+## Tareas activas
 
-There are currently no `Ready` tasks.
+Actualmente no existen tareas con estado `Lista`.
 
-The next implementation task will be added by ChatGPT after reviewing the repository and the user's requested scope.
+La siguiente tarea de implementación será agregada por ChatGPT después de revisar el repositorio y el alcance solicitado por el usuario.
 
-## Task template
+## Plantilla de tarea
 
 ```text
-### PC-XXXX — <Title>
+### PC-XXXX — <Título>
 
-Status: Ready
+Estado: Lista
 
-Objective:
-<exact objective>
+Objetivo:
+<objetivo exacto>
 
-Scope:
+Alcance:
 - ...
 
-Out of scope:
+Fuera de alcance:
 - ...
 
-Files expected:
+Archivos esperados:
 - ...
 
-Implementation requirements:
+Requerimientos de implementación:
 1. ...
 
-Validation:
+Validación:
 - dotnet build
 - dotnet test
 
-Acceptance criteria:
+Criterios de aceptación:
 - ...
 
-Execution notes:
-- Filled by Codex after successful execution.
+Notas de ejecución:
+- Completadas por Codex después de una ejecución satisfactoria.
 ```
