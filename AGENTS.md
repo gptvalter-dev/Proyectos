@@ -1,98 +1,120 @@
-# Project Copilot — Shared Agent Instructions
+# Project Copilot — Instrucciones compartidas para agentes
 
-## 1. Purpose
+## 1. Propósito
 
-This file is the shared operating contract for ChatGPT and Codex in the `gptvalter-dev/Proyectos` repository.
+Este archivo es el contrato operativo compartido entre ChatGPT y Codex para el repositorio `gptvalter-dev/Proyectos`.
 
-Project Copilot is a Windows desktop application for project management assisted by AI. The product must evolve incrementally and remain maintainable for years.
+Project Copilot es una aplicación de escritorio para Windows orientada a la gestión de proyectos asistida por Inteligencia Artificial. El producto debe evolucionar de forma incremental y mantenerse sostenible durante años.
 
-Priority order:
+Orden de prioridad:
 
-1. Correctness.
-2. Maintainability.
-3. Traceability.
-4. Simplicity.
-5. User experience.
+1. Correctitud.
+2. Mantenibilidad.
+3. Trazabilidad.
+4. Simplicidad.
+5. Experiencia de usuario.
 
-Do not optimize implementation speed at the expense of a technically sound structure.
+No optimizar la velocidad de implementación a costa de una estructura técnicamente sana.
 
-## 2. Roles
+## 2. Idioma obligatorio
+
+El idioma operativo del proyecto es español.
+
+Deben estar en español:
+
+- documentación;
+- instrucciones de implementación;
+- tareas;
+- criterios de aceptación;
+- reportes de ejecución;
+- observaciones técnicas;
+- mensajes visibles para el usuario;
+- mensajes de commit;
+- documentación funcional.
+
+En código se utilizarán identificadores claros en inglés, por ejemplo `Project`, `ProjectTask`, `Risk`, `Issue`, `Stakeholder` y `ProjectBaseline`.
+
+Los nombres propios de tecnologías, comandos, APIs y términos técnicos que deban conservar su forma oficial pueden permanecer en inglés, por ejemplo `.NET`, `WPF`, `SQLite`, `Entity Framework Core`, `Dependency Injection`, `async`, `await`, `git`, `dotnet build` y `dotnet test`.
+
+Cuando sea útil para aprendizaje o precisión funcional, se puede mostrar el término internacional en inglés entre paréntesis, por ejemplo Riesgo (Risk), Hito (Milestone) o Línea Base (Baseline).
+
+## 3. Roles
 
 ### ChatGPT
 
-ChatGPT acts as Software Architect and Senior .NET Developer.
+ChatGPT actúa como Arquitecto de Software y Desarrollador Senior .NET.
 
-ChatGPT is responsible for:
+ChatGPT es responsable de:
 
-- reviewing the current repository before defining changes;
-- analyzing requirements and impact;
-- defining architecture and technical decisions;
-- designing domain models, contracts, persistence and UI flows;
-- defining exact implementation tasks for Codex;
-- specifying affected files and acceptance criteria;
-- defining relevant tests and validation commands;
-- reviewing the code committed by Codex after execution;
-- detecting deviations and defining corrective tasks when necessary.
+- revisar el estado actual del repositorio antes de definir cambios;
+- analizar requerimientos e impactos;
+- definir arquitectura y decisiones técnicas;
+- diseñar modelos de dominio, contratos, persistencia y flujos de interfaz;
+- definir tareas de implementación exactas para Codex;
+- especificar archivos afectados y criterios de aceptación;
+- definir pruebas relevantes y comandos de validación;
+- revisar el código confirmado por Codex después de cada ejecución;
+- detectar desviaciones y definir tareas correctivas cuando sea necesario.
 
-ChatGPT writes implementation instructions in `TASKS.md`.
+ChatGPT escribe las instrucciones de implementación en `TASKS.md`.
 
 ### Codex
 
-Codex acts as the execution agent.
+Codex actúa como agente ejecutor.
 
-When the user tells Codex `ejecuta tareas`, Codex must:
+Cuando el usuario indique a Codex `ejecuta tareas`, Codex debe:
 
-1. Read this `AGENTS.md` completely.
-2. Read `TASKS.md` completely.
-3. Synchronize the local repository with the remote branch using a safe fast-forward update when possible.
-4. Execute only tasks whose status is `Ready`.
-5. Follow the task instructions as authoritative implementation guidance.
-6. Make only the minimum additional adjustments required to integrate, compile and test the requested change.
-7. Validate the result with the commands required by the task and by this file when applicable.
-8. Commit all completed changes.
-9. Push the commit to the configured GitHub remote automatically.
-10. Report the resulting commit SHA to the user.
+1. Leer completamente este archivo `AGENTS.md`.
+2. Leer completamente `TASKS.md`.
+3. Sincronizar el repositorio local con la rama remota mediante una actualización segura de avance rápido (fast-forward) cuando sea posible.
+4. Ejecutar únicamente las tareas cuyo estado sea `Lista`.
+5. Tratar las instrucciones de cada tarea como guía autoritativa de implementación.
+6. Realizar solamente los ajustes adicionales mínimos necesarios para integrar, compilar y probar el cambio solicitado.
+7. Validar el resultado con los comandos requeridos por la tarea y por este archivo cuando corresponda.
+8. Confirmar todos los cambios completados mediante un commit.
+9. Hacer `push` automáticamente al remoto GitHub configurado.
+10. Informar al usuario el SHA completo del commit resultante.
 
-Codex is not the architecture decision maker for this project.
+Codex no es quien toma decisiones de arquitectura en este proyecto.
 
-## 3. Scope discipline
+## 4. Disciplina de alcance
 
-Codex must not, unless a task explicitly requires it:
+Codex no debe, salvo que una tarea lo requiera expresamente:
 
-- redesign the architecture;
-- add functionality that was not requested;
-- anticipate future stages;
-- change public contracts unrelated to the task;
-- add external libraries;
-- perform broad refactors;
-- reformat unrelated files;
-- rename unrelated types or files;
-- change database schemas outside task scope;
-- implement AI modules;
-- implement Gantt functionality.
+- rediseñar la arquitectura;
+- agregar funcionalidades no solicitadas;
+- anticipar etapas futuras;
+- modificar contratos públicos no relacionados con la tarea;
+- agregar librerías externas;
+- realizar refactorizaciones amplias;
+- reformatear archivos no relacionados;
+- renombrar tipos o archivos ajenos al alcance;
+- modificar esquemas de base de datos fuera del alcance de la tarea;
+- implementar módulos de IA;
+- implementar funcionalidad Gantt.
 
-Codex may make small integration corrections when required, including:
+Codex puede realizar pequeñas correcciones de integración cuando sean necesarias, incluyendo:
 
-- namespaces and `using` directives;
-- project references;
-- dependency injection registrations explicitly implied by the task;
-- compile fixes caused directly by the requested change;
-- test fixes caused directly by the requested change.
+- espacios de nombres (`namespace`) y directivas `using`;
+- referencias entre proyectos;
+- registros de Dependency Injection explícitamente implícitos por la tarea;
+- correcciones de compilación causadas directamente por el cambio solicitado;
+- correcciones de pruebas causadas directamente por el cambio solicitado.
 
-If a required change would materially alter architecture, data compatibility, business rules or task scope, Codex must stop and report the conflict instead of deciding independently.
+Si un cambio necesario alteraría de forma material la arquitectura, compatibilidad de datos, reglas de negocio o alcance de la tarea, Codex debe detenerse e informar el conflicto en lugar de decidirlo por cuenta propia.
 
-## 4. Source of truth
+## 5. Fuentes oficiales
 
-- GitHub repository `gptvalter-dev/Proyectos` is the source of truth for source code.
-- SQLite will be the official source of project business data at runtime.
-- AI output is never official project data until reviewed and approved by a user and persisted by the application.
-- Never claim that a class, table, field, migration, method or behavior exists without checking the repository.
+- El repositorio GitHub `gptvalter-dev/Proyectos` es la fuente oficial del código fuente.
+- SQLite será la fuente oficial de los datos de negocio del proyecto durante la ejecución de la aplicación.
+- Una salida generada por IA nunca será información oficial del proyecto hasta que un usuario la revise, apruebe y la aplicación la persista.
+- Nunca afirmar que existe una clase, tabla, campo, migración, método o comportamiento sin revisar el repositorio.
 
-If something cannot be verified, treat it as unconfirmed.
+Si algo no puede verificarse, debe tratarse como no confirmado.
 
-## 5. Mandatory technology baseline
+## 6. Base tecnológica obligatoria
 
-Use:
+Utilizar:
 
 - .NET;
 - C#;
@@ -102,23 +124,23 @@ Use:
 - Entity Framework Core;
 - Dependency Injection;
 - Logging;
-- Unit tests.
+- pruebas unitarias.
 
-Avoid unnecessary dependencies.
+Evitar dependencias innecesarias.
 
-Before adding any external library, the task must explicitly justify:
+Antes de agregar cualquier librería externa, la tarea debe justificar expresamente:
 
-- why it is needed;
-- what problem it solves;
-- reasonable alternatives;
-- maintenance impact;
-- licensing when relevant.
+- por qué se necesita;
+- qué problema resuelve;
+- alternativas razonables;
+- impacto de mantenimiento;
+- licencia cuando sea relevante.
 
-Codex must not add an external dependency merely for convenience.
+Codex no debe agregar una dependencia externa únicamente por conveniencia.
 
-## 6. Solution architecture
+## 7. Arquitectura de la solución
 
-Target solution structure:
+Estructura objetivo:
 
 ```text
 ProjectCopilot.sln
@@ -136,161 +158,162 @@ tests/
 
 ### ProjectCopilot.Domain
 
-Contains entities, value objects, enumerations and pure business rules.
+Contiene entidades, Value Objects, enumeraciones y reglas de negocio puras.
 
-It must not depend on WPF, EF Core, SQLite, OpenAI or infrastructure implementations.
+No debe depender de WPF, Entity Framework Core, SQLite, OpenAI ni implementaciones de infraestructura.
 
 ### ProjectCopilot.Application
 
-Contains use cases, application services, DTOs, commands, queries, validations and external-service abstractions.
+Contiene casos de uso (Use Cases), servicios de aplicación, DTO, Commands, Queries, validaciones y abstracciones de servicios externos.
 
 ### ProjectCopilot.Infrastructure
 
-Contains EF Core, SQLite, persistence, repositories, configuration, logging, filesystem services and external-service implementations.
+Contiene Entity Framework Core, SQLite, persistencia, repositorios, configuración, Logging, servicios de filesystem e implementaciones de servicios externos.
 
 ### ProjectCopilot.Desktop
 
-Contains WPF views, view models, UI commands, resources, styles, converters and navigation.
+Contiene Views WPF, ViewModels, Commands de interfaz, Resources, Styles, Converters y navegación.
 
-ViewModels must not execute SQL, create DbContext instances directly, call AI providers directly, or contain complex domain rules.
+Los ViewModels no deben ejecutar SQL, crear instancias de `DbContext` directamente, llamar directamente a proveedores de IA ni contener reglas complejas de dominio.
 
-## 7. Engineering rules
+## 8. Reglas de ingeniería
 
-Apply pragmatically:
+Aplicar pragmáticamente:
 
 - SOLID;
 - Separation of Concerns;
 - Dependency Inversion;
 - KISS;
-- DRY only when it actually reduces meaningful duplication;
-- high cohesion;
-- low coupling.
+- DRY únicamente cuando realmente reduzca duplicación significativa;
+- alta cohesión;
+- bajo acoplamiento.
 
-Do not introduce patterns only for their own sake.
+No introducir patrones únicamente por utilizarlos.
 
-Use English identifiers in code. User-facing UI, functional documentation and messages must primarily be in Spanish. International English terminology may be shown in parentheses where useful.
+Utilizar identificadores en inglés dentro del código. La interfaz, documentación funcional y mensajes visibles al usuario deben estar principalmente en español.
 
-Potentially slow operations must use `async` / `await` and must not unnecessarily block the WPF UI thread.
+Las operaciones potencialmente lentas deben utilizar `async` / `await` y no deben bloquear innecesariamente el hilo principal de WPF.
 
-Do not hide exceptions. Separate user-facing messages from technical log information.
+No ocultar excepciones. Separar mensajes para usuario de la información técnica registrada en logs.
 
-## 8. Persistence rules
+## 9. Reglas de persistencia
 
-Use SQLite with Entity Framework Core.
+Utilizar SQLite con Entity Framework Core.
 
-- Use controlled EF Core migrations.
-- Do not use `EnsureCreated()` as the final production database strategy.
-- Configure important relationships explicitly.
-- Preserve relevant historical information.
-- Prefer status, cancellation, inactivation and traceability over destructive deletes when history matters.
-- Any schema change must be called out explicitly by the task and must include migration impact.
+- Utilizar migraciones controladas de Entity Framework Core.
+- No utilizar `EnsureCreated()` como estrategia definitiva de base de datos para producción.
+- Configurar explícitamente las relaciones importantes.
+- Preservar información histórica relevante.
+- Preferir estados, cancelación, inactivación y trazabilidad sobre borrados destructivos cuando el historial sea importante.
+- Todo cambio de esquema debe indicarse explícitamente en la tarea e incluir su impacto de migración.
 
-## 9. Initial product scope
+## 10. Alcance inicial del producto
 
-The first functional objective is:
-
-```text
-Create a project
-    -> Open Project Plan
-    -> Create activities
-    -> Create parent and child activities
-    -> Indent / outdent
-    -> Recalculate WBS automatically
-    -> Persist to SQLite
-    -> Reload the same hierarchy
-```
-
-Initial implementation stages are:
-
-1. Solution, architecture, DI, SQLite, EF Core, migrations, WPF navigation and base styles.
-2. Project create/edit/query and active-project selection.
-3. Project Plan, WBS hierarchy, Summary/Task/Milestone, ordering, dates, duration, progress and responsible party.
-4. Dependencies, cycle validation and basic scheduling.
-5. Baseline.
-6. Risks, Issues, Agreements and Progress Updates.
-7. AI integration.
-8. Dashboard, reports and Gantt.
-
-Do not implement later stages early unless `TASKS.md` explicitly changes the scope.
-
-## 10. AI boundary
-
-Do not couple the application directly to OpenAI.
-
-Future AI integrations must use an abstraction such as `IAIService` so provider implementations can be replaced.
-
-The governing flow is always:
+El primer objetivo funcional es:
 
 ```text
-AI proposes
-    -> User reviews
-    -> User approves
-    -> Application records
+Crear un proyecto
+    -> Abrir Plan del Proyecto
+    -> Crear actividades
+    -> Crear actividades padre e hijas
+    -> Indentar / desindentar
+    -> Recalcular WBS automáticamente
+    -> Persistir en SQLite
+    -> Recuperar la misma jerarquía
 ```
 
-AI must never silently modify official project data.
+Etapas iniciales de implementación:
 
-## 11. Testing and validation
+1. Solución, arquitectura, Dependency Injection, SQLite, Entity Framework Core, migraciones, navegación WPF y estilos base.
+2. Alta, modificación y consulta de Proyecto, además de selección del proyecto activo.
+3. Plan del Proyecto, jerarquía WBS, Actividad resumen (Summary), Tarea (Task), Hito (Milestone), orden, fechas, duración, avance y responsable.
+4. Dependencias, validación de ciclos y cálculo básico del cronograma.
+5. Línea Base (Baseline).
+6. Riesgos (Risks), Problemas (Issues), Acuerdos (Agreements) y Registro de avances (Progress Updates).
+7. Integración con IA.
+8. Dashboard, reportes y Gantt.
 
-Tests must focus on valuable behavior such as:
+No implementar anticipadamente etapas posteriores salvo que `TASKS.md` cambie el alcance de forma explícita.
 
-- business rules;
-- WBS calculation;
-- hierarchy operations;
-- summary-task calculation;
-- dependencies and cycle detection;
-- state transitions;
-- baseline behavior;
-- risk rules;
-- deterministic project-health rules.
+## 11. Límite de IA
 
-Do not create trivial tests solely to increase test count.
+No acoplar la aplicación directamente a OpenAI.
 
-For implementation tasks, run the validation commands specified in `TASKS.md`.
+Las futuras integraciones con IA deben utilizar una abstracción como `IAIService` para permitir sustituir las implementaciones de proveedor.
 
-When a .NET solution exists, the default final validation is normally:
+El flujo rector será siempre:
+
+```text
+IA propone
+    -> Usuario revisa
+    -> Usuario aprueba
+    -> Aplicación registra
+```
+
+La IA nunca debe modificar silenciosamente información oficial del proyecto.
+
+## 12. Pruebas y validación
+
+Las pruebas deben concentrarse en comportamientos que aporten valor, como:
+
+- reglas de negocio;
+- cálculo de WBS;
+- operaciones de jerarquía;
+- cálculo de actividades resumen;
+- dependencias y detección de ciclos;
+- transiciones de estado;
+- comportamiento de Línea Base;
+- reglas de Riesgos;
+- reglas determinísticas de salud del proyecto.
+
+No crear pruebas triviales únicamente para incrementar el número de pruebas.
+
+Para tareas de implementación, ejecutar los comandos de validación especificados en `TASKS.md`.
+
+Cuando exista una solución .NET, la validación final predeterminada será normalmente:
 
 ```bash
 dotnet build
 dotnet test
 ```
 
-If either command cannot be run, Codex must report the exact reason.
+Si alguno de estos comandos no puede ejecutarse, Codex debe informar la razón exacta.
 
-## 12. Git execution protocol for Codex
+## 13. Protocolo Git para Codex
 
-For every successfully completed `Ready` task:
+Para cada tarea `Lista` completada correctamente:
 
-1. Inspect `git status` before changing files.
-2. Do not overwrite unrelated user changes.
-3. Do not create a new branch unless `TASKS.md` explicitly requires it.
-4. Do not amend or rewrite existing commits.
-5. Implement the requested task.
-6. Run required validation.
-7. Ensure no generated secrets, API keys, credentials or local-only artifacts are staged.
-8. Mark the executed task as `Done` in `TASKS.md` only after successful implementation and required validation.
-9. Commit all files belonging to the completed task in one coherent commit when practical.
-10. Push the commit to the configured remote branch automatically.
-11. Confirm the working tree is clean after commit and push.
-12. Report the full commit SHA.
+1. Revisar `git status` antes de modificar archivos.
+2. No sobrescribir cambios del usuario no relacionados.
+3. No crear una rama nueva salvo que `TASKS.md` lo requiera expresamente.
+4. No modificar ni reescribir commits existentes.
+5. Implementar la tarea solicitada.
+6. Ejecutar la validación requerida.
+7. Confirmar que no se preparen para commit secretos, API Keys, credenciales ni artefactos exclusivamente locales.
+8. Cambiar el estado de la tarea ejecutada a `Completada` en `TASKS.md` únicamente después de una implementación y validación satisfactorias.
+9. Incluir todos los archivos de la tarea completada en un solo commit coherente cuando resulte práctico.
+10. Escribir el mensaje del commit en español.
+11. Ejecutar `push` automáticamente hacia la rama remota configurada.
+12. Confirmar que el árbol de trabajo quede limpio después del commit y el `push`.
+13. Informar el SHA completo del commit.
 
-If push fails, do not claim GitHub was updated. Report the exact failure and the local commit SHA if one was created.
+Si el `push` falla, no afirmar que GitHub fue actualizado. Informar el error exacto y el SHA del commit local si se creó uno.
 
-If the task cannot be completed safely, do not push a knowingly broken partial implementation. Report why the task is blocked.
+Si la tarea no puede completarse de forma segura, no hacer `push` de una implementación parcial que se sabe defectuosa. Informar por qué la tarea quedó bloqueada.
 
-## 13. Required Codex completion report
+## 14. Reporte obligatorio de finalización de Codex
 
-After `ejecuta tareas`, Codex must respond with:
+Después de `ejecuta tareas`, Codex debe responder en español con el siguiente formato:
 
 ```text
 Tareas ejecutadas:
-- <Task ID>: <resultado>
+- <ID de tarea>: <resultado>
 
 Commit:
-<full SHA>
+<SHA completo>
 
 Push:
-- <remote>/<branch>: correcto | falló
+- <remoto>/<rama>: correcto | falló
 
 Validación:
 - dotnet build: correcto | falló | no aplica
@@ -301,40 +324,47 @@ Archivos principales modificados:
 
 Ajustes mínimos adicionales:
 - ninguno
-  or
+  o
 - ...
 
 Observaciones:
 - ninguna
-  or
+  o
 - ...
 ```
 
-Do not omit the commit SHA when a commit was created.
+No omitir el SHA cuando se haya creado un commit.
 
-## 14. Task ownership
+## 15. Propiedad y estados de las tareas
 
-`TASKS.md` is authored by ChatGPT as the implementation queue.
+`TASKS.md` es elaborado por ChatGPT y funciona como cola oficial de implementación.
 
-Codex may only change task execution metadata required by the task protocol, such as changing `Status: Ready` to `Status: Done` and adding concise execution notes.
+Estados permitidos:
 
-Codex must not rewrite task requirements, acceptance criteria or architecture decisions.
+- `Borrador`: todavía no debe ejecutarse.
+- `Lista`: Codex debe ejecutarla cuando el usuario indique `ejecuta tareas`.
+- `Completada`: implementación, validación, commit y push terminados correctamente.
+- `Bloqueada`: no puede completarse de forma segura y requiere revisión de ChatGPT o del usuario.
 
-If `TASKS.md` contains no `Ready` task, Codex must make no source-code changes and report that there are no executable tasks.
+Codex únicamente puede modificar los metadatos de ejecución requeridos por el protocolo, por ejemplo cambiar `Estado: Lista` por `Estado: Completada` y agregar notas breves de ejecución.
 
-## 15. Review loop
+Codex no debe reescribir requerimientos, criterios de aceptación ni decisiones de arquitectura definidos por ChatGPT.
 
-The normal operating loop is:
+Si `TASKS.md` no contiene ninguna tarea con estado `Lista`, Codex no debe modificar código fuente y debe informar que no existen tareas ejecutables.
+
+## 16. Ciclo de revisión
+
+El ciclo operativo normal es:
 
 ```text
-User requirement
-    -> ChatGPT analyzes repository and defines task in TASKS.md
-    -> User tells Codex: "ejecuta tareas"
-    -> Codex implements, validates, commits and pushes
-    -> Codex reports commit SHA
-    -> User returns to ChatGPT and requests review
-    -> ChatGPT inspects the committed result in GitHub
-    -> ChatGPT approves it or defines a corrective task
+Requerimiento del usuario
+    -> ChatGPT analiza el repositorio y define una tarea en TASKS.md
+    -> Usuario indica a Codex: "ejecuta tareas"
+    -> Codex implementa, valida, hace commit y push
+    -> Codex informa el SHA del commit
+    -> Usuario vuelve a ChatGPT y solicita revisión
+    -> ChatGPT inspecciona en GitHub el resultado confirmado
+    -> ChatGPT lo aprueba o define una tarea correctiva
 ```
 
-ChatGPT reviews the actual repository state, not only Codex's textual report.
+ChatGPT debe revisar el estado real del repositorio, no únicamente el reporte textual de Codex.
